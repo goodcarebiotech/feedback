@@ -62,6 +62,22 @@
     * { animation-duration: 0.001ms !important; transition-duration: 0.001ms !important; }
   }
 
+  /* ── TOP-RIGHT LOGIN BAR ── */
+  .topbar { position: fixed; top: 0; left: 0; right: 0; z-index: 300; display: flex; justify-content: flex-end; padding: 16px 18px; pointer-events: none; }
+  .topbar-btn {
+    pointer-events: auto;
+    display: inline-flex; align-items: center; gap: 6px;
+    padding: 8px 16px; border-radius: 100px;
+    background: rgba(255,255,255,0.92); backdrop-filter: blur(10px); -webkit-backdrop-filter: blur(10px);
+    border: 1px solid rgba(255,255,255,0.6);
+    color: var(--ink); font-family: inherit; font-size: 12.5px; font-weight: 700;
+    cursor: pointer; box-shadow: 0 4px 16px rgba(0,0,0,0.16);
+    transition: transform 0.15s ease, box-shadow 0.2s ease;
+  }
+  .topbar-btn:hover { box-shadow: 0 6px 20px rgba(0,0,0,0.22); }
+  .topbar-btn:active { transform: scale(0.96); }
+  .topbar-btn .dot { width: 6px; height: 6px; border-radius: 50%; background: var(--green); flex-shrink: 0; }
+
   /* ── HERO MEDIA (replace image URLs below with your own) ── */
   .hero-media {
     position: relative;
@@ -203,7 +219,7 @@
   .spinner { width: 14px; height: 14px; border: 2px solid rgba(255,255,255,0.35); border-top-color: #fff; border-radius: 50%; animation: spin 0.7s linear infinite; }
   @keyframes spin { to { transform: rotate(360deg); } }
 
-  /* ── LIST ── */
+  /* ── LIST (used in admin dashboard only) ── */
   .list { display: flex; flex-direction: column; gap: 10px; }
   .note-card {
     position: relative;
@@ -221,7 +237,7 @@
   .note-card.company::before { background: var(--blue); }
   .note-card.snack::before { background: var(--orange); }
 
-  .note-head { display: flex; align-items: center; justify-content: space-between; margin-bottom: 8px; gap: 10px; }
+  .note-head { display: flex; align-items: center; justify-content: space-between; margin-bottom: 8px; gap: 10px; padding-right: 30px; }
   .note-tag { font-size: 11px; font-weight: 700; padding: 3px 10px; border-radius: 100px; letter-spacing: 0.02em; }
   .note-tag.company { background: var(--blue-tint); color: var(--blue-deep); }
   .note-tag.snack { background: var(--orange-tint); color: var(--orange-deep); }
@@ -229,23 +245,20 @@
   .note-body { font-size: 14.5px; color: var(--ink); white-space: pre-wrap; word-break: break-word; }
 
   .note-del {
-    display: none; position: absolute; top: 12px; right: 12px;
+    position: absolute; top: 12px; right: 12px;
     width: 26px; height: 26px; border-radius: 50%;
     background: var(--red-tint); border: 1px solid rgba(255,59,48,0.2); color: var(--red);
-    align-items: center; justify-content: center; cursor: pointer;
+    display: flex; align-items: center; justify-content: center; cursor: pointer;
   }
-  .admin-mode .note-del { display: flex; }
-  .admin-mode .note-head { padding-right: 30px; }
 
-  /* ── EMPTY / LOCKED ── */
-  .empty-state, .locked-state {
+  .empty-state {
     text-align: center; padding: 46px 24px;
     background: var(--surface-soft); border: 1px dashed var(--line-strong); border-radius: var(--r-lg);
     color: var(--ink-soft);
   }
-  .empty-state .icon, .locked-state .icon { margin-bottom: 12px; opacity: 0.5; }
-  .empty-state .t1, .locked-state .t1 { font-weight: 700; color: var(--ink); margin-bottom: 4px; font-size: 14px; }
-  .empty-state .t2, .locked-state .t2 { font-size: 13px; }
+  .empty-state .icon { margin-bottom: 12px; opacity: 0.5; }
+  .empty-state .t1 { font-weight: 700; color: var(--ink); margin-bottom: 4px; font-size: 14px; }
+  .empty-state .t2 { font-size: 13px; }
 
   .loading-state {
     display: flex; align-items: center; justify-content: center; gap: 10px;
@@ -256,14 +269,7 @@
   .spinner.dark { border: 2px solid rgba(0,0,0,0.12); border-top-color: var(--ink-soft); }
 
   footer.page-footer { text-align: center; padding: 50px 20px 40px; }
-  .admin-entry {
-    display: inline-flex; align-items: center; gap: 7px;
-    padding: 9px 18px; border-radius: 100px;
-    background: var(--surface); border: 1px solid var(--line);
-    color: var(--ink-soft); font-size: 12.5px; font-weight: 600;
-    cursor: pointer; box-shadow: var(--shadow-sm); transition: all 0.2s ease;
-  }
-  .admin-entry:hover { color: var(--ink); border-color: var(--line-strong); box-shadow: var(--shadow-md); }
+  footer.page-footer p { font-size: 12px; color: var(--ink-faint); }
 
   /* ── MODAL ── */
   .modal-overlay {
@@ -291,18 +297,6 @@
 
   .modal-body { padding: 8px 22px 4px; }
 
-  .login-box { padding: 30px 6px 10px; text-align: center; }
-  .login-box .icon-lock { margin-bottom: 16px; color: var(--ink-faint); }
-  .login-box p { color: var(--ink-soft); font-size: 13px; margin-bottom: 22px; }
-  .pw-input {
-    width: 100%; text-align: center; letter-spacing: 0.3em; font-size: 18px; font-weight: 700;
-    padding: 14px; border-radius: var(--r-md); border: 1px solid var(--line-strong); background: var(--surface);
-    outline: none; font-family: inherit; color: var(--ink); margin-bottom: 14px;
-  }
-  .pw-input:focus { border-color: var(--blue); box-shadow: 0 0 0 4px var(--blue-tint); }
-  .err-text { color: var(--red); font-size: 12.5px; font-weight: 600; margin-top: -4px; margin-bottom: 14px; display: none; }
-  .err-text.show { display: block; }
-
   .stat-grid { display: grid; grid-template-columns: repeat(3, 1fr); gap: 10px; margin: 6px 0 20px; }
   .stat-box { background: var(--surface); border: 1px solid var(--line); border-radius: var(--r-md); padding: 16px 8px; text-align: center; }
   .stat-num { font-family: 'Manrope', sans-serif; font-size: 24px; font-weight: 800; }
@@ -311,20 +305,7 @@
   .stat-box.snack .stat-num { color: var(--orange); }
   .stat-label { font-size: 10.5px; color: var(--ink-faint); font-weight: 700; letter-spacing: 0.04em; margin-top: 2px; text-transform: uppercase; }
 
-  .toggle-row {
-    display: flex; align-items: center; justify-content: space-between;
-    background: var(--surface); border: 1px solid var(--line); border-radius: var(--r-md);
-    padding: 16px 18px; margin-bottom: 22px;
-  }
-  .toggle-text .t1 { font-size: 14px; font-weight: 700; margin-bottom: 2px; }
-  .toggle-text .t2 { font-size: 12.5px; color: var(--ink-soft); max-width: 320px; }
-
-  .switch { position: relative; width: 50px; height: 30px; flex-shrink: 0; }
-  .switch input { opacity: 0; width: 0; height: 0; }
-  .switch-track { position: absolute; inset: 0; background: rgba(120,120,128,0.32); border-radius: 100px; cursor: pointer; transition: background 0.25s ease; }
-  .switch-track::before { content: ''; position: absolute; width: 26px; height: 26px; left: 2px; top: 2px; background: #fff; border-radius: 50%; box-shadow: 0 2px 5px rgba(0,0,0,0.25); transition: transform 0.25s cubic-bezier(0.22,1,0.36,1); }
-  .switch input:checked + .switch-track { background: var(--green); }
-  .switch input:checked + .switch-track::before { transform: translateX(20px); }
+  .admin-whoami { display: flex; align-items: center; gap: 8px; padding: 10px 14px; background: var(--green-tint); border: 1px solid rgba(47,174,96,0.25); border-radius: var(--r-md); font-size: 12.5px; color: #1c7a44; font-weight: 600; margin-bottom: 18px; }
 
   .admin-list-head { display: flex; align-items: center; justify-content: space-between; margin-bottom: 12px; }
   .admin-filters { display: flex; gap: 6px; }
@@ -332,6 +313,21 @@
   .chip.active { background: var(--ink); color: #fff; border-color: var(--ink); }
 
   .logout-link { display: block; text-align: center; margin-top: 22px; font-size: 12.5px; color: var(--ink-faint); background: none; border: none; cursor: pointer; font-family: inherit; text-decoration: underline; text-underline-offset: 2px; }
+
+  .signin-box { text-align: center; padding: 30px 6px 10px; }
+  .signin-box .icon-lock { margin-bottom: 16px; color: var(--ink-faint); }
+  .signin-box p { color: var(--ink-soft); font-size: 13px; margin-bottom: 22px; }
+  .google-btn {
+    display: inline-flex; align-items: center; justify-content: center; gap: 10px;
+    width: 100%; padding: 12px; border-radius: 100px;
+    background: #fff; border: 1px solid var(--line-strong);
+    font-family: inherit; font-size: 14px; font-weight: 700; color: var(--ink);
+    cursor: pointer; transition: box-shadow 0.2s ease, transform 0.15s ease;
+  }
+  .google-btn:hover { box-shadow: var(--shadow-md); }
+  .google-btn:active { transform: scale(0.97); }
+  .err-text { color: var(--red); font-size: 12.5px; font-weight: 600; margin-top: 14px; display: none; }
+  .err-text.show { display: block; }
 
   /* ── TOAST ── */
   .toast {
@@ -347,6 +343,10 @@
 </style>
 </head>
 <body>
+
+<div class="topbar">
+  <button class="topbar-btn" id="topbarBtn" onclick="handleTopbarClick()">登入</button>
+</div>
 
 <!-- ============================================================
      首頁圖片：把下面 <img id="heroImg" src="..."> 換成你自己的圖片網址
@@ -389,24 +389,10 @@
     </div>
   </section>
 
-  <section class="section" id="listSection">
-    <div class="section-head">
-      <span class="section-title" id="listTitle">大家的留言</span>
-      <span class="section-count" id="listCount"></span>
-    </div>
-    <div id="listContainer">
-      <div class="loading-state"><span class="spinner dark"></span>正在讀取留言…</div>
-    </div>
-  </section>
-
 </main>
 
 <footer class="page-footer">
-  <p style="font-size:12px; color:var(--ink-faint); margin-bottom:16px;">固德生技 用心聽見每一個聲音</p>
-  <button class="admin-entry" onclick="openAdminModal()">
-    <svg width="14" height="14" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2"><circle cx="12" cy="12" r="3"/><path d="M19.4 15a1.65 1.65 0 00.33 1.82l.06.06a2 2 0 11-2.83 2.83l-.06-.06a1.65 1.65 0 00-1.82-.33 1.65 1.65 0 00-1 1.51V21a2 2 0 01-4 0v-.09A1.65 1.65 0 009 19.4a1.65 1.65 0 00-1.82.33l-.06.06a2 2 0 11-2.83-2.83l.06-.06A1.65 1.65 0 005 15a1.65 1.65 0 00-1.51-1H3a2 2 0 010-4h.09A1.65 1.65 0 004.6 9a1.65 1.65 0 00-.33-1.82l-.06-.06a2 2 0 112.83-2.83l.06.06A1.65 1.65 0 009 4.6a1.65 1.65 0 001-1.51V3a2 2 0 014 0v.09a1.65 1.65 0 001 1.51 1.65 1.65 0 001.82-.33l.06-.06a2 2 0 112.83 2.83l-.06.06A1.65 1.65 0 0019.4 9a1.65 1.65 0 001.51 1H21a2 2 0 010 4h-.09a1.65 1.65 0 00-1.51 1z"/></svg>
-    管理後台
-  </button>
+  <p>固德生技 用心聽見每一個聲音</p>
 </footer>
 
 <!-- ================= ADMIN MODAL ================= -->
@@ -419,36 +405,29 @@
     </div>
     <div class="modal-body">
 
-      <div id="loginView" class="login-box">
+      <div id="signinView" class="signin-box">
         <div class="icon-lock">
           <svg width="34" height="34" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.6" style="margin:0 auto"><rect x="4" y="11" width="16" height="9" rx="2"/><path d="M8 11V7a4 4 0 018 0v4"/></svg>
         </div>
-        <p>輸入後台密碼以管理留言與公開設定</p>
-        <input type="password" class="pw-input" id="adminPw" placeholder="••••••" maxlength="30" onkeydown="if(event.key==='Enter')adminLogin()">
-        <div class="err-text" id="adminPwErr">密碼錯誤，請再試一次</div>
-        <button class="btn btn-primary btn-full" id="adminLoginBtn" onclick="adminLogin()">登入</button>
+        <p>使用公司 Google 帳號登入以管理留言</p>
+        <button class="google-btn" id="googleSigninBtn" onclick="handleGoogleSignIn()">
+          <svg width="18" height="18" viewBox="0 0 48 48"><path fill="#FFC107" d="M43.6 20.5H42V20H24v8h11.3c-1.6 4.7-6.1 8-11.3 8-6.6 0-12-5.4-12-12s5.4-12 12-12c3.1 0 5.8 1.1 8 3l6-6C34 5.1 29.3 3 24 3 12.4 3 3 12.4 3 24s9.4 21 21 21 21-9.4 21-21c0-1.4-.1-2.4-.4-3.5z"/><path fill="#FF3D00" d="M6.3 14.7l6.6 4.8C14.6 15.6 19 13 24 13c3.1 0 5.8 1.1 8 3l6-6C34 5.1 29.3 3 24 3 16 3 9.1 7.6 6.3 14.7z"/><path fill="#4CAF50" d="M24 45c5.2 0 9.9-2 13.4-5.2l-6.2-5.2c-2 1.5-4.5 2.4-7.2 2.4-5.2 0-9.6-3.3-11.3-8l-6.5 5C9 40.4 15.9 45 24 45z"/><path fill="#1976D2" d="M43.6 20.5H42V20H24v8h11.3c-.8 2.3-2.2 4.2-4.1 5.6l6.2 5.2C40.9 36 44 30.5 44 24c0-1.4-.1-2.4-.4-3.5z"/></svg>
+          使用 Google 帳號登入
+        </button>
+        <div class="err-text" id="signinErr">這個帳號沒有後台存取權限</div>
       </div>
 
       <div id="dashView" style="display:none">
+        <div class="admin-whoami" id="adminWhoami"><span class="dot" style="width:6px;height:6px;border-radius:50%;background:var(--green)"></span><span id="adminWhoamiText"></span></div>
+
         <div class="stat-grid">
           <div class="stat-box total"><div class="stat-num" id="statTotal">0</div><div class="stat-label">總留言</div></div>
           <div class="stat-box company"><div class="stat-num" id="statCompany">0</div><div class="stat-label">公司建議</div></div>
           <div class="stat-box snack"><div class="stat-num" id="statSnack">0</div><div class="stat-label">零食建議</div></div>
         </div>
 
-        <div class="toggle-row">
-          <div class="toggle-text">
-            <div class="t1">公開留言列表</div>
-            <div class="t2" id="toggleDesc">開啟後，大家都能在首頁看到留言清單</div>
-          </div>
-          <label class="switch">
-            <input type="checkbox" id="publicToggle" onchange="togglePublicView(this.checked)">
-            <span class="switch-track"></span>
-          </label>
-        </div>
-
         <div class="admin-list-head">
-          <span class="section-title">全部留言（僅後台可見全部）</span>
+          <span class="section-title">全部留言</span>
           <div class="admin-filters">
             <button class="chip active" data-f="all" onclick="setAdminFilter('all', this)">全部</button>
             <button class="chip" data-f="company" onclick="setAdminFilter('company', this)">公司</button>
@@ -457,7 +436,7 @@
         </div>
         <div id="adminListContainer" class="list"></div>
 
-        <button class="logout-link" onclick="adminLogout()">登出後台</button>
+        <button class="logout-link" onclick="handleSignOut()">登出</button>
       </div>
 
     </div>
@@ -465,6 +444,31 @@
 </div>
 
 <div class="toast" id="toast"></div>
+
+<!-- ============================================================
+     Firebase：登入驗證用（只用 Authentication，不用其他 Firebase 服務）
+============================================================ -->
+<script type="module">
+  import { initializeApp } from "https://www.gstatic.com/firebasejs/10.13.0/firebase-app.js";
+  import { getAuth, GoogleAuthProvider, signInWithPopup, signOut } from "https://www.gstatic.com/firebasejs/10.13.0/firebase-auth.js";
+
+  const firebaseConfig = {
+    apiKey: "AIzaSyAGxj07Uk6fYC1rTxeeOA8Eu0wuo2uLKWc",
+    authDomain: "goodcare-c4cd3.firebaseapp.com",
+    projectId: "goodcare-c4cd3",
+    storageBucket: "goodcare-c4cd3.firebasestorage.app",
+    messagingSenderId: "724074270065",
+    appId: "1:724074270065:web:c92ef0b92eb940cda2fad0"
+  };
+
+  const app = initializeApp(firebaseConfig);
+  const auth = getAuth(app);
+  const provider = new GoogleAuthProvider();
+
+  window.fbSignIn = () => signInWithPopup(auth, provider);
+  window.fbSignOut = () => signOut(auth);
+  window.fbGetCurrentUser = () => auth.currentUser;
+</script>
 
 <script>
 /* ============================================================
@@ -479,10 +483,9 @@ const CATEGORY_META = {
 
 let currentCategory = "company";
 let suggestions = [];
-let publicView = true;
 let isAdmin = false;
-let adminPasswordCache = "";
 let adminFilter = "all";
+let currentUserEmail = "";
 
 /* ============================================================
    API HELPER
@@ -490,6 +493,14 @@ let adminFilter = "all";
 async function callApi(payload) {
   const res = await fetch(GAS_URL, { method: 'POST', body: JSON.stringify(payload) });
   return res.json();
+}
+
+// 需要登入才能呼叫的 API：自動附上目前 Firebase 使用者的最新憑證
+async function callAdminApi(payload) {
+  const user = window.fbGetCurrentUser();
+  if (!user) return { status: 'error', message: '尚未登入' };
+  const idToken = await user.getIdToken();
+  return callApi(Object.assign({ idToken }, payload));
 }
 
 /* ============================================================
@@ -532,7 +543,6 @@ function selectCategory(cat) {
   const pill = document.getElementById('composePill');
   const pillText = document.getElementById('composePillText');
   const submitBtn = document.getElementById('submitBtn');
-  const listTitle = document.getElementById('listTitle');
 
   const meta = CATEGORY_META[cat];
   pillText.textContent = meta.label;
@@ -540,9 +550,6 @@ function selectCategory(cat) {
   pill.style.color = cat === 'company' ? 'var(--blue-deep)' : 'var(--orange-deep)';
   pill.querySelector('.sw').style.background = cat === 'company' ? 'var(--blue)' : 'var(--orange)';
   submitBtn.className = 'btn ' + (cat === 'company' ? 'btn-blue' : 'btn-orange');
-  listTitle.textContent = meta.label + '留言';
-
-  renderList();
 }
 
 /* ============================================================
@@ -563,9 +570,6 @@ async function submitNote() {
     if (res.status === 'success') {
       textEl.value = '';
       showToast('✅ 已經收到，謝謝你願意說出來');
-      // 直接把留言加到畫面上，不用再等一次伺服器回應
-      suggestions.unshift({ id: 'local-' + Date.now(), category: currentCategory, content: text, createdAt: new Date().toISOString() });
-      renderList();
     } else {
       showToast('⚠️ 送出失敗：' + (res.message || '請稍後再試'));
     }
@@ -578,63 +582,16 @@ async function submitNote() {
 }
 
 /* ============================================================
-   PUBLIC LIST
+   TOPBAR / ADMIN MODAL
    ============================================================ */
-async function loadList() {
-  try {
-    const res = await callApi({ action: 'list' });
-    if (res.status === 'success') {
-      suggestions = res.data || [];
-      publicView = !!res.publicView;
-    }
-  } catch (err) {
-    showToast('⚠️ 讀取留言失敗');
-  }
-  renderList();
+function handleTopbarClick() {
+  openAdminModal();
 }
 
-function renderList() {
-  const listSection = document.getElementById('listSection');
-  const container = document.getElementById('listContainer');
-  const countEl = document.getElementById('listCount');
-
-  if (!publicView) {
-    listSection.style.display = 'none';
-    return;
-  }
-  listSection.style.display = '';
-
-  const filtered = suggestions.filter(s => s.category === currentCategory);
-  countEl.textContent = filtered.length ? filtered.length + ' 則' : '';
-
-  if (filtered.length === 0) {
-    container.innerHTML = `
-      <div class="empty-state">
-        <div class="icon"><svg width="30" height="30" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.6" style="margin:0 auto"><path d="M21 11.5a8.38 8.38 0 01-.9 3.8 8.5 8.5 0 01-7.6 4.7 8.38 8.38 0 01-3.8-.9L3 21l1.9-5.7a8.38 8.38 0 01-.9-3.8 8.5 8.5 0 014.7-7.6 8.38 8.38 0 013.8-.9h.5a8.48 8.48 0 018 8v.5z"/></svg></div>
-        <div class="t1">這裡還很安靜</div>
-        <div class="t2">第一則留言，就從你開始</div>
-      </div>`;
-    return;
-  }
-
-  container.innerHTML = filtered.map(s => `
-    <div class="note-card ${s.category}">
-      <div class="note-head">
-        <span class="note-tag ${s.category}">${CATEGORY_META[s.category] ? CATEGORY_META[s.category].label : s.category}</span>
-        <span class="note-time">${relTime(s.createdAt)}</span>
-      </div>
-      <div class="note-body">${esc(s.content)}</div>
-    </div>
-  `).join('');
-}
-
-/* ============================================================
-   ADMIN MODAL
-   ============================================================ */
 function openAdminModal() {
   document.getElementById('adminModal').classList.add('show');
   document.body.style.overflow = 'hidden';
-  if (isAdmin) showDash(); else showLogin();
+  if (isAdmin) showDash(); else showSignin();
 }
 function closeAdminModal() {
   document.getElementById('adminModal').classList.remove('show');
@@ -642,67 +599,78 @@ function closeAdminModal() {
 }
 function closeOnBg(e) { if (e.target.id === 'adminModal') closeAdminModal(); }
 
-function showLogin() {
-  document.getElementById('loginView').style.display = 'block';
+function showSignin() {
+  document.getElementById('signinView').style.display = 'block';
   document.getElementById('dashView').style.display = 'none';
-  document.getElementById('modalTitleText').textContent = '管理後台登入';
-  document.getElementById('adminPw').value = '';
-  document.getElementById('adminPwErr').classList.remove('show');
+  document.getElementById('modalTitleText').textContent = '登入管理後台';
+  document.getElementById('signinErr').classList.remove('show');
 }
 
 async function showDash() {
-  document.getElementById('loginView').style.display = 'none';
+  document.getElementById('signinView').style.display = 'none';
   document.getElementById('dashView').style.display = 'block';
   document.getElementById('modalTitleText').textContent = '管理後台';
+  document.getElementById('adminWhoamiText').textContent = '已登入：' + currentUserEmail;
   await loadAdminData();
 }
 
-async function adminLogin() {
-  const pw = document.getElementById('adminPw').value;
-  if (!pw) return;
-  const btn = document.getElementById('adminLoginBtn');
+async function handleGoogleSignIn() {
+  const btn = document.getElementById('googleSigninBtn');
   btn.disabled = true;
-  btn.innerHTML = `<span class="spinner"></span> 登入中`;
+  document.getElementById('signinErr').classList.remove('show');
 
   try {
-    const res = await callApi({ action: 'adminLogin', password: pw });
+    await window.fbSignIn();
+    const user = window.fbGetCurrentUser();
+    const idToken = await user.getIdToken();
+
+    const res = await callApi({ action: 'adminLogin', idToken });
     if (res.status === 'success') {
-      adminPasswordCache = pw;
       isAdmin = true;
-      document.body.classList.add('admin-mode');
+      currentUserEmail = res.email || user.email;
+      updateTopbar();
       await showDash();
     } else {
-      document.getElementById('adminPwErr').classList.add('show');
+      // 這個帳號有登入 Google，但不在允許清單裡 → 直接登出，不留在已登入狀態
+      await window.fbSignOut();
+      document.getElementById('signinErr').classList.add('show');
     }
   } catch (err) {
-    showToast('⚠️ 連線失敗，請檢查網路');
+    showToast('⚠️ 登入失敗，請再試一次');
   } finally {
     btn.disabled = false;
-    btn.innerHTML = '登入';
   }
 }
 
-function adminLogout() {
+async function handleSignOut() {
+  await window.fbSignOut();
   isAdmin = false;
-  adminPasswordCache = "";
-  document.body.classList.remove('admin-mode');
-  showLogin();
+  currentUserEmail = "";
+  updateTopbar();
+  closeAdminModal();
+  showToast('已登出');
+}
+
+function updateTopbar() {
+  const btn = document.getElementById('topbarBtn');
+  if (isAdmin) {
+    btn.innerHTML = `<span class="dot"></span>${esc(currentUserEmail.split('@')[0])}`;
+  } else {
+    btn.textContent = '登入';
+  }
 }
 
 async function loadAdminData() {
   document.getElementById('adminListContainer').innerHTML = `<div class="loading-state"><span class="spinner dark"></span>正在讀取留言…</div>`;
   try {
-    const res = await callApi({ action: 'adminList', password: adminPasswordCache });
+    const res = await callAdminApi({ action: 'adminList' });
     if (res.status === 'success') {
       suggestions = res.data || [];
-      publicView = !!res.publicView;
-      document.getElementById('publicToggle').checked = publicView;
-      updateToggleDesc();
       renderAdminStats();
       renderAdminList();
     } else {
       showToast('⚠️ 讀取失敗，請重新登入');
-      adminLogout();
+      await handleSignOut();
     }
   } catch (err) {
     showToast('⚠️ 連線失敗');
@@ -713,30 +681,6 @@ function renderAdminStats() {
   document.getElementById('statTotal').textContent = suggestions.length;
   document.getElementById('statCompany').textContent = suggestions.filter(s => s.category === 'company').length;
   document.getElementById('statSnack').textContent = suggestions.filter(s => s.category === 'snack').length;
-}
-
-function updateToggleDesc() {
-  document.getElementById('toggleDesc').textContent = publicView
-    ? '目前大家都能在首頁看到留言清單'
-    : '目前首頁只會顯示投稿表單，留言清單暫時隱藏，只有後台看得到';
-}
-
-async function togglePublicView(checked) {
-  const prevChecked = document.getElementById('publicToggle');
-  try {
-    const res = await callApi({ action: 'toggleSettings', password: adminPasswordCache, publicView: checked });
-    if (res.status === 'success') {
-      publicView = checked;
-      updateToggleDesc();
-      showToast(checked ? '✅ 已開放所有人查看留言' : '✅ 已將留言清單設為僅後台可見');
-    } else {
-      prevChecked.checked = !checked;
-      showToast('⚠️ 設定失敗');
-    }
-  } catch (err) {
-    prevChecked.checked = !checked;
-    showToast('⚠️ 連線失敗');
-  }
 }
 
 function setAdminFilter(f, btn) {
@@ -771,7 +715,7 @@ function renderAdminList() {
 
 async function deleteNote(id) {
   try {
-    const res = await callApi({ action: 'deleteNote', password: adminPasswordCache, id: id });
+    const res = await callAdminApi({ action: 'deleteNote', id: id });
     if (res.status === 'success') {
       showToast('🗑️ 留言已刪除');
       await loadAdminData();
@@ -786,9 +730,8 @@ async function deleteNote(id) {
 /* ============================================================
    INIT
    ============================================================ */
-document.body.classList.remove('admin-mode');
 selectCategory('company');
-loadList();
+updateTopbar();
 </script>
 </body>
 </html>
