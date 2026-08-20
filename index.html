@@ -122,14 +122,14 @@
   .segwrap { position: sticky; top: 0; z-index: 50; background: rgba(245,245,247,0.82); backdrop-filter: blur(20px) saturate(160%); -webkit-backdrop-filter: blur(20px) saturate(160%); border-bottom: 1px solid var(--line); padding: 14px 20px; }
   .segmented {
     position: relative;
-    display: grid; grid-template-columns: repeat(3, 1fr);
+    display: grid; grid-template-columns: repeat(2, 1fr);
     max-width: 600px; margin: 0 auto;
     background: rgba(118,118,128,0.12);
     border-radius: 100px; padding: 4px;
   }
   .seg-thumb {
     position: absolute; top: 4px; left: 4px; height: calc(100% - 8px);
-    width: calc(33.333% - 5.333px);
+    width: calc(50% - 4px);
     background: var(--surface);
     border-radius: 100px;
     box-shadow: 0 3px 10px rgba(0,0,0,0.12);
@@ -365,7 +365,6 @@
     <div class="seg-thumb" id="segThumb"></div>
     <button class="seg-btn active" data-cat="company" onclick="selectCategory('company')"><span class="sw" style="background:var(--blue)"></span>公司建議</button>
     <button class="seg-btn" data-cat="snack" onclick="selectCategory('snack')"><span class="sw" style="background:var(--orange)"></span>零食建議</button>
-    <button class="seg-btn" data-cat="all" onclick="selectCategory('all')">全部留言</button>
   </div>
 </div>
 
@@ -523,28 +522,22 @@ function selectCategory(cat) {
   currentCategory = cat;
   document.querySelectorAll('.seg-btn').forEach(b => b.classList.toggle('active', b.dataset.cat === cat));
 
-  const idx = ['company', 'snack', 'all'].indexOf(cat);
+  const idx = ['company', 'snack'].indexOf(cat);
   document.getElementById('segThumb').style.transform = `translateX(${idx * 100}%)`;
 
-  const composeSection = document.getElementById('composeSection');
   const pill = document.getElementById('composePill');
   const pillText = document.getElementById('composePillText');
   const submitBtn = document.getElementById('submitBtn');
   const listTitle = document.getElementById('listTitle');
 
-  if (cat === 'all') {
-    composeSection.style.display = 'none';
-    listTitle.textContent = '大家想說的話';
-  } else {
-    composeSection.style.display = 'block';
-    const meta = CATEGORY_META[cat];
-    pillText.textContent = meta.label;
-    pill.style.background = cat === 'company' ? 'var(--blue-tint)' : 'var(--orange-tint)';
-    pill.style.color = cat === 'company' ? 'var(--blue-deep)' : 'var(--orange-deep)';
-    pill.querySelector('.sw').style.background = cat === 'company' ? 'var(--blue)' : 'var(--orange)';
-    submitBtn.className = 'btn ' + (cat === 'company' ? 'btn-blue' : 'btn-orange');
-    listTitle.textContent = meta.label + '留言';
-  }
+  const meta = CATEGORY_META[cat];
+  pillText.textContent = meta.label;
+  pill.style.background = cat === 'company' ? 'var(--blue-tint)' : 'var(--orange-tint)';
+  pill.style.color = cat === 'company' ? 'var(--blue-deep)' : 'var(--orange-deep)';
+  pill.querySelector('.sw').style.background = cat === 'company' ? 'var(--blue)' : 'var(--orange)';
+  submitBtn.className = 'btn ' + (cat === 'company' ? 'btn-blue' : 'btn-orange');
+  listTitle.textContent = meta.label + '留言';
+
   renderList();
 }
 
@@ -566,7 +559,9 @@ async function submitNote() {
     if (res.status === 'success') {
       textEl.value = '';
       showToast('✅ 已經收到，謝謝你願意說出來');
-      await loadList();
+      // 直接把留言加到畫面上，不用再等一次伺服器回應
+      suggestions.unshift({ id: 'local-' + Date.now(), category: currentCategory, content: text, createdAt: new Date().toISOString() });
+      renderList();
     } else {
       showToast('⚠️ 送出失敗：' + (res.message || '請稍後再試'));
     }
@@ -605,7 +600,7 @@ function renderList() {
   }
   listSection.style.display = '';
 
-  const filtered = currentCategory === 'all' ? suggestions : suggestions.filter(s => s.category === currentCategory);
+  const filtered = suggestions.filter(s => s.category === currentCategory);
   countEl.textContent = filtered.length ? filtered.length + ' 則' : '';
 
   if (filtered.length === 0) {
