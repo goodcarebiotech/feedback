@@ -3,7 +3,7 @@
 <head>
 <meta charset="UTF-8">
 <meta name="viewport" content="width=device-width, initial-scale=1.0, maximum-scale=1.0, user-scalable=no">
-<title>意見箱 · 匿名留言</title>
+<title>固德生技 · 暖心留言箱</title>
 
 <link rel="preconnect" href="https://fonts.googleapis.com">
 <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
@@ -354,9 +354,9 @@
   </picture>
   <div class="hero-scrim"></div>
   <div class="hero-caption">
-    <div class="hero-badge"><span class="dot"></span>內部匿名意見箱</div>
-    <h1 class="display">說出你的想法<br>我們都在聽</h1>
-    <p>完全匿名，不會記錄任何個人資訊。無論是公司制度或茶水間零食，都歡迎留言。</p>
+    <div class="hero-badge"><span class="dot"></span>固德生技 · 暖心留言箱</div>
+    <h1 class="display">每一個想法<br>都值得被聽見</h1>
+    <p>採匿名方式收集意見，不留存任何個人資訊。不論是攸關公司發展的建議，或是茶水間零食的小小期待，都歡迎和我們分享。</p>
   </div>
 </div>
 
@@ -374,11 +374,11 @@
   <section class="section" id="composeSection">
     <div class="submit-card">
       <span class="cat-pill" id="composePill"><span class="sw"></span><span id="composePillText">公司建議</span></span>
-      <textarea id="composeText" maxlength="500" placeholder="輸入你的建議或想法…"></textarea>
+      <textarea id="composeText" maxlength="500" placeholder="想說什麼都可以，我們在聽…"></textarea>
       <div class="compose-footer">
         <span class="anon-note">
           <svg width="13" height="13" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2"><path d="M12 15a3 3 0 100-6 3 3 0 000 6z"/><path d="M20 12c0 4.4-3.6 8-8 8s-8-3.6-8-8 3.6-8 8-8 8 3.6 8 8z"/></svg>
-          完全匿名送出
+          放心，完全匿名
         </span>
         <button class="btn" id="submitBtn" onclick="submitNote()">送出留言</button>
       </div>
@@ -399,6 +399,7 @@
 </main>
 
 <footer class="page-footer">
+  <p style="font-size:12px; color:var(--ink-faint); margin-bottom:16px;">固德生技 用心聽見每一個聲音</p>
   <button class="admin-entry" onclick="openAdminModal()">
     <svg width="14" height="14" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2"><circle cx="12" cy="12" r="3"/><path d="M19.4 15a1.65 1.65 0 00.33 1.82l.06.06a2 2 0 11-2.83 2.83l-.06-.06a1.65 1.65 0 00-1.82-.33 1.65 1.65 0 00-1 1.51V21a2 2 0 01-4 0v-.09A1.65 1.65 0 009 19.4a1.65 1.65 0 00-1.82.33l-.06.06a2 2 0 11-2.83-2.83l.06-.06A1.65 1.65 0 005 15a1.65 1.65 0 00-1.51-1H3a2 2 0 010-4h.09A1.65 1.65 0 004.6 9a1.65 1.65 0 00-.33-1.82l-.06-.06a2 2 0 112.83-2.83l.06.06A1.65 1.65 0 009 4.6a1.65 1.65 0 001-1.51V3a2 2 0 014 0v.09a1.65 1.65 0 001 1.51 1.65 1.65 0 001.82-.33l.06-.06a2 2 0 112.83 2.83l-.06.06A1.65 1.65 0 0019.4 9a1.65 1.65 0 001.51 1H21a2 2 0 010 4h-.09a1.65 1.65 0 00-1.51 1z"/></svg>
     管理後台
@@ -435,7 +436,7 @@
         <div class="toggle-row">
           <div class="toggle-text">
             <div class="t1">公開留言列表</div>
-            <div class="t2" id="toggleDesc">開啟後，所有人都能在首頁看到留言清單</div>
+            <div class="t2" id="toggleDesc">開啟後，大家都能在首頁看到留言清單</div>
           </div>
           <label class="switch">
             <input type="checkbox" id="publicToggle" onchange="togglePublicView(this.checked)">
@@ -533,7 +534,7 @@ function selectCategory(cat) {
 
   if (cat === 'all') {
     composeSection.style.display = 'none';
-    listTitle.textContent = '大家的留言';
+    listTitle.textContent = '大家想說的話';
   } else {
     composeSection.style.display = 'block';
     const meta = CATEGORY_META[cat];
@@ -564,7 +565,7 @@ async function submitNote() {
     const res = await callApi({ action: 'submit', category: currentCategory, content: text });
     if (res.status === 'success') {
       textEl.value = '';
-      showToast('✅ 已匿名送出，謝謝你的想法！');
+      showToast('✅ 已經收到，謝謝你願意說出來');
       await loadList();
     } else {
       showToast('⚠️ 送出失敗：' + (res.message || '請稍後再試'));
@@ -594,19 +595,15 @@ async function loadList() {
 }
 
 function renderList() {
+  const listSection = document.getElementById('listSection');
   const container = document.getElementById('listContainer');
   const countEl = document.getElementById('listCount');
 
   if (!publicView) {
-    container.innerHTML = `
-      <div class="locked-state">
-        <div class="icon"><svg width="30" height="30" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.6" style="margin:0 auto"><rect x="4" y="11" width="16" height="9" rx="2"/><path d="M8 11V7a4 4 0 018 0v4"/></svg></div>
-        <div class="t1">留言清單目前僅開放後台查看</div>
-        <div class="t2">你的留言已經送出，感謝分享想法</div>
-      </div>`;
-    countEl.textContent = '';
+    listSection.style.display = 'none';
     return;
   }
+  listSection.style.display = '';
 
   const filtered = currentCategory === 'all' ? suggestions : suggestions.filter(s => s.category === currentCategory);
   countEl.textContent = filtered.length ? filtered.length + ' 則' : '';
@@ -615,8 +612,8 @@ function renderList() {
     container.innerHTML = `
       <div class="empty-state">
         <div class="icon"><svg width="30" height="30" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.6" style="margin:0 auto"><path d="M21 11.5a8.38 8.38 0 01-.9 3.8 8.5 8.5 0 01-7.6 4.7 8.38 8.38 0 01-3.8-.9L3 21l1.9-5.7a8.38 8.38 0 01-.9-3.8 8.5 8.5 0 014.7-7.6 8.38 8.38 0 013.8-.9h.5a8.48 8.48 0 018 8v.5z"/></svg></div>
-        <div class="t1">目前還沒有留言</div>
-        <div class="t2">成為第一個分享想法的人吧</div>
+        <div class="t1">這裡還很安靜</div>
+        <div class="t2">第一則留言，就從你開始</div>
       </div>`;
     return;
   }
@@ -721,8 +718,8 @@ function renderAdminStats() {
 
 function updateToggleDesc() {
   document.getElementById('toggleDesc').textContent = publicView
-    ? '目前所有人都能在首頁看到留言清單'
-    : '目前留言清單僅限後台查看，首頁只顯示投稿表單';
+    ? '目前大家都能在首頁看到留言清單'
+    : '目前首頁只會顯示投稿表單，留言清單暫時隱藏，只有後台看得到';
 }
 
 async function togglePublicView(checked) {
